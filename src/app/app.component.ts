@@ -16,10 +16,7 @@ export class AppComponent {
   query = gql`
     subscription newUserEvent {
       newUser {
-        firstName
-        email
         id
-        lastName
       }
     }
   `
