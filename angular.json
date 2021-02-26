@@ -1,18 +1,14 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "graphql-angular": {
+    "graphql-rxjs-angular": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -20,7 +16,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/graphql-angular",
+            "allowedCommonJsDependencies": [
+              "graphql-request"
+            ],
+            "outputPath": "dist/graphql-rxjs-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -31,7 +30,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -53,13 +52,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -68,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "graphql-angular:build"
+            "browserTarget": "graphql-rxjs-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "graphql-angular:build:production"
+              "browserTarget": "graphql-rxjs-angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "graphql-angular:build"
+            "browserTarget": "graphql-rxjs-angular:build"
           }
         },
         "test": {
@@ -94,7 +93,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
           }
@@ -116,16 +115,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "graphql-angular:serve"
+            "devServerTarget": "graphql-rxjs-angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "graphql-angular:serve:production"
+              "devServerTarget": "graphql-rxjs-angular:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "graphql-angular"
+  "defaultProject": "graphql-rxjs-angular"
 }
