@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { GraphQLClient } from 'graphql-request'
 import { createClient } from 'graphql-ws';
 import { from, Observable } from 'rxjs';
@@ -19,7 +19,9 @@ export class GraphQLService {
         },
     })
 
-    constructor() { }
+    constructor(
+        private ngZone: NgZone
+    ) { }
 
     fetch(document: string, variables?): Observable<any> {
         return from(this.graphQLClient.request(document, variables))
@@ -28,9 +30,9 @@ export class GraphQLService {
     subscription(operation): Observable<any> {
         return new Observable((observer) =>
             client.subscribe(operation, {
-                next: ({ data }) => observer.next(data),
-                error: (err) => observer.error(err),
-                complete: () => observer.complete(),
+                next: ({ data }) => this.ngZone.run(() => observer.next(data)),
+                error: (err) => this.ngZone.run(() => observer.error(err)),
+                complete: () => this.ngZone.run(() => observer.complete()),
             }),
         );
     }

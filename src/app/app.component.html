@@ -356,7 +356,10 @@
   <p>
     <button (click)="createUser()">create user</button>
   </p>
-<pre>
+  <p>
+    <small>open another browser instance to see subscription (websockets) working</small>
+  </p>
+  <pre>
 <code>subscription results</code>
 {{(createUserEvent$ | async) | json}}
 </pre>
