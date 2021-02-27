@@ -25,10 +25,10 @@ export class GraphQLService {
         return from(this.graphQLClient.request(document, variables))
     }
 
-    subscription(operation) {
+    subscription(operation): Observable<any> {
         return new Observable((observer) =>
             client.subscribe(operation, {
-                next: (data) => observer.next(data),
+                next: ({ data }) => observer.next(data),
                 error: (err) => observer.error(err),
                 complete: () => observer.complete(),
             }),

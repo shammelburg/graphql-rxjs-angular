@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { UserService } from './services/user.service';
+import { Title } from '@angular/platform-browser';
 
-import { tap } from "rxjs/operators";
-import { GraphQLService } from './services/graphql.service';
-import { gql } from 'graphql-request';
+import { UserService } from './services/user.service';
+import { map, tap } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -13,18 +12,18 @@ import { gql } from 'graphql-request';
 export class AppComponent {
   title = 'graphql-rxjs-angular';
 
-  query = gql`
-    subscription newUserEvent {
-      newUser {
-        id
-      }
-    }
-  `
-  createUserEvent$ = this.graphQLService.subscription({ query: this.query })
+  createUserEvent$ = this.userService.newUserEvent()
+    .pipe(
+      map(data => data.newUser),
+      tap(newUser => {
+        console.log(newUser)
+        this.windowTitle.setTitle(newUser.id.toString())
+      })
+    )
 
   constructor(
     private userService: UserService,
-    private graphQLService: GraphQLService
+    private windowTitle: Title
   ) { }
 
   getToken() {

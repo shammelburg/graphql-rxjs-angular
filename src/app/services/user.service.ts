@@ -11,6 +11,10 @@ export interface CreateUser {
     createUser: User
 }
 
+export interface NewUser {
+    newUser: User
+}
+
 export interface User {
     id: number
     firstName: string
@@ -46,5 +50,16 @@ export class UserService {
             }
         `
         return this.gqlService.fetch(query)
+    }
+
+    newUserEvent(): Observable<NewUser> {
+        const query = gql`
+            subscription newUserEvent {
+                newUser {
+                    id
+                }
+            }
+      `
+        return this.gqlService.subscription({ query })
     }
 }
